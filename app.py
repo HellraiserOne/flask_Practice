@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, jsonify
 from flask_pymongo import PyMongo
 from bson.objectid import ObjectId
 from dotenv import load_dotenv
@@ -22,6 +22,13 @@ def index():
     students = mongo.db.students.find()
     return render_template('index.html', students=students)
 
+@app.route('/health')
+def health():
+    try:
+        mongo.cx.admin.command('ping')
+        return jsonify(status="healthy", mongo="connected"), 200
+    except Exception as e:
+        return jsonify(status="unhealthy", error=str(e)), 500
 # Add student
 @app.route('/add', methods=['GET', 'POST'])
 def add_student():
