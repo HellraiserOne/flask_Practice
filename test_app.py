@@ -5,7 +5,7 @@ from bson.objectid import ObjectId
 @pytest.fixture
 def client():
     app.config["TESTING"] = True
-    ##app.config["MONGO_URI"] = "mongodb://localhost:27017/test_student_db"  # test DB
+    ##app.config["MONGO_URI"] = "mongodb://localhost:27017/test_student_db"  # test DB commented as it was causing failure
     client = app.test_client()
 
     # Setup: clear and create test data
@@ -30,6 +30,8 @@ def test_home_page(client):
     assert response.status_code == 200
     assert b"Test Student" in response.data
 
+def test_home_page(client):
+    assert False, "Intentional failure for CI/CD grading proof"
 
 def test_add_student(client):
     """Test adding a new student"""
