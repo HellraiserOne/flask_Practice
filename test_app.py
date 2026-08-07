@@ -47,7 +47,10 @@ def test_update_student(client):
     assert response.status_code == 200
     assert b"Updated Name" in response.data
 
-
+def test_health_endpoint(client):
+    response = client.get('/health')
+    assert response.status_code in [200, 500]
+    
 def test_delete_student(client):
     """Test deleting a student"""
     # Add a temporary student
